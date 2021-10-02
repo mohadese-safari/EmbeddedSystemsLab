@@ -9,7 +9,7 @@ to prevent unexpected issues and have safier setup we can add reset circuit.
 
 [Hidden pins](https://electronics.stackexchange.com/questions/191336/how-to-unhide-hidden-pins-in-proteus)
 
-[Setup AVR microcontroller](https://electronics.stackexchange.com/questions/191336/how-to-unhide-hidden-pins-in-proteus)
+[Setup AVR microcontroller](https://robotmakers.ir/blog/4-1-%D8%B1%D8%A7%D9%87-%D8%A7%D9%86%D8%AF%D8%A7%D8%B2%DB%8C-%DB%8C%DA%A9-%D9%85%DB%8C%DA%A9%D8%B1%D9%88%DA%A9%D9%86%D8%AA%D8%B1%D9%84%D8%B1-avr/)
   
 ## Screenshots
 
