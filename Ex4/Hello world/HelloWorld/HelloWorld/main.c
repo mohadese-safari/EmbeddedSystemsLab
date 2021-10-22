@@ -12,11 +12,11 @@
 int main(void)
 {
     /* Replace with your application code */
-	char c = 'h';
+	char *say_hello = "Hello world"; 
+	LCD_Init();
+	LCD_DisplayString(say_hello);
     while (1) 
-    {
-		LCD_Init();
-		LCD_DataWrite(c);
+    {		
     }
 }
 
