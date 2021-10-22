@@ -8,12 +8,14 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include "lcd_8_bit.h"
-#define  F_CPU=1000000
+#define  F_CPU = 1000000
 int second;
 int minute;
 int hour;
 
-int timer1_initial_value= 65535-15625;// 31250 ticks for 1 second  15625
+//int timer1_initial_value= 65535-15625;// 31250 ticks for 1 second  15625
+int timer1_initial_value= 65535-12650;// 31250 ticks for 1 second  15625
+
 void increaseSecond();
 void increaseMinute();
 void increaseHour();
@@ -69,11 +71,12 @@ void handleClock(){
 		increaseMinute(1);
 		second = 0;		
 	}
-	if(minuteOverflow()){
-		minute = minute%60;	
+	if(minuteOverflow()==1){
+		increaseHour();
+		minute = 0;	
 	}
-	
-	
+	if(hourOverflow()==1)
+		hour=0;	
 }
 
 void increaseSecond(int ticks){
@@ -93,7 +96,17 @@ void increaseMinute(int ticks){
 
 int minuteOverflow(){
 	if(minute>=60){
-		minute = minute%60;
+		return 1;
+	}
+	return -1;
+}
+
+void increaseHour(int ticks){
+	hour= hour+ticks;
+}
+
+int hourOverflow(){
+	if(hour>=24){
 		return 1;
 	}
 	return -1;
