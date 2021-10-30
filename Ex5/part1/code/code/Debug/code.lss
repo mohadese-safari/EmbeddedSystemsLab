@@ -3,29 +3,31 @@ code.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000000f2  00000000  00000000  00000094  2**1
+  0 .text         0000013c  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000008  00800060  000000f2  00000186  2**0
+  1 .data         0000000a  00800060  0000013c  000001d0  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000002  00800068  00800068  0000018e  2**0
+  2 .bss          00000002  0080006a  0080006a  000001da  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  0000018e  2**0
+  3 .comment      00000030  00000000  00000000  000001da  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001c0  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000020c  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000028  00000000  00000000  000001fc  2**0
+  5 .debug_aranges 00000030  00000000  00000000  00000248  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   0000069a  00000000  00000000  00000224  2**0
+  6 .debug_info   00000647  00000000  00000000  00000278  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000005f4  00000000  00000000  000008be  2**0
+  7 .debug_abbrev 0000059b  00000000  00000000  000008bf  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000254  00000000  00000000  00000eb2  2**0
+  8 .debug_line   00000213  00000000  00000000  00000e5a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000034  00000000  00000000  00001108  2**2
+  9 .debug_frame  0000008c  00000000  00000000  00001070  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000034a  00000000  00000000  0000113c  2**0
+ 10 .debug_str    0000032e  00000000  00000000  000010fc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000018  00000000  00000000  00001486  2**0
+ 11 .debug_loc    000000cb  00000000  00000000  0000142a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000020  00000000  00000000  000014f5  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -39,7 +41,7 @@ Disassembly of section .text:
   14:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
   18:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
   1c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
-  20:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  20:	0c 94 65 00 	jmp	0xca	; 0xca <__vector_8>
   24:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
   28:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
   2c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
@@ -65,18 +67,18 @@ Disassembly of section .text:
   60:	10 e0       	ldi	r17, 0x00	; 0
   62:	a0 e6       	ldi	r26, 0x60	; 96
   64:	b0 e0       	ldi	r27, 0x00	; 0
-  66:	e2 ef       	ldi	r30, 0xF2	; 242
-  68:	f0 e0       	ldi	r31, 0x00	; 0
+  66:	ec e3       	ldi	r30, 0x3C	; 60
+  68:	f1 e0       	ldi	r31, 0x01	; 1
   6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
   6c:	05 90       	lpm	r0, Z+
   6e:	0d 92       	st	X+, r0
-  70:	a8 36       	cpi	r26, 0x68	; 104
+  70:	aa 36       	cpi	r26, 0x6A	; 106
   72:	b1 07       	cpc	r27, r17
   74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
 
 00000076 <__do_clear_bss>:
   76:	20 e0       	ldi	r18, 0x00	; 0
-  78:	a8 e6       	ldi	r26, 0x68	; 104
+  78:	aa e6       	ldi	r26, 0x6A	; 106
   7a:	b0 e0       	ldi	r27, 0x00	; 0
   7c:	01 c0       	rjmp	.+2      	; 0x80 <.do_clear_bss_start>
 
@@ -84,85 +86,129 @@ Disassembly of section .text:
   7e:	1d 92       	st	X+, r1
 
 00000080 <.do_clear_bss_start>:
-  80:	aa 36       	cpi	r26, 0x6A	; 106
+  80:	ac 36       	cpi	r26, 0x6C	; 108
   82:	b2 07       	cpc	r27, r18
   84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
-  86:	0e 94 5b 00 	call	0xb6	; 0xb6 <main>
-  8a:	0c 94 77 00 	jmp	0xee	; 0xee <_exit>
+  86:	0e 94 49 00 	call	0x92	; 0x92 <main>
+  8a:	0c 94 9c 00 	jmp	0x138	; 0x138 <_exit>
 
 0000008e <__bad_interrupt>:
   8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
-00000092 <clockWiseRotate>:
-			PORTA = 4;
-			_delay_ms(500);
-			PORTA = 1;
-			_delay_ms(500);
-			*/
-	state = (state+1)% 4;
-  92:	80 91 68 00 	lds	r24, 0x0068	; 0x800068 <__data_end>
-  96:	90 91 69 00 	lds	r25, 0x0069	; 0x800069 <__data_end+0x1>
-  9a:	01 96       	adiw	r24, 0x01	; 1
-  9c:	83 70       	andi	r24, 0x03	; 3
-  9e:	90 78       	andi	r25, 0x80	; 128
-  a0:	99 23       	and	r25, r25
-  a2:	24 f4       	brge	.+8      	; 0xac <clockWiseRotate+0x1a>
-  a4:	01 97       	sbiw	r24, 0x01	; 1
-  a6:	8c 6f       	ori	r24, 0xFC	; 252
-  a8:	9f 6f       	ori	r25, 0xFF	; 255
-  aa:	01 96       	adiw	r24, 0x01	; 1
-  ac:	90 93 69 00 	sts	0x0069, r25	; 0x800069 <__data_end+0x1>
-  b0:	80 93 68 00 	sts	0x0068, r24	; 0x800068 <__data_end>
-  b4:	08 95       	ret
-
-000000b6 <main>:
-int states[] = {8,2,4,1};
-int state;
+00000092 <main>:
+	
+}
 
 int main(void)
 {
 	DDRA = 0xFF;
-  b6:	8f ef       	ldi	r24, 0xFF	; 255
-  b8:	8a bb       	out	0x1a, r24	; 26
+  92:	8f ef       	ldi	r24, 0xFF	; 255
+  94:	8a bb       	out	0x1a, r24	; 26
 	DDRC = 0 ;
-  ba:	14 ba       	out	0x14, r1	; 20
-    /* Replace with your application code */
-    while (1) 
-    {
-		if(PINC==0){
-  bc:	83 b3       	in	r24, 0x13	; 19
-  be:	81 11       	cpse	r24, r1
-  c0:	0c c0       	rjmp	.+24     	; 0xda <main+0x24>
+  96:	14 ba       	out	0x14, r1	; 20
+	//TCCR0 = (1<<CS00);
+	TCCR1B = (1<<CS11);
+  98:	82 e0       	ldi	r24, 0x02	; 2
+  9a:	8e bd       	out	0x2e, r24	; 46
+	TIMSK |= (1 << TOIE1) | (1 << TOIE0); // Enable Timer1 & Timer2 OverFlow Interrupt
+  9c:	89 b7       	in	r24, 0x39	; 57
+  9e:	85 60       	ori	r24, 0x05	; 5
+  a0:	89 bf       	out	0x39, r24	; 57
+	sei();
+  a2:	78 94       	sei
+  a4:	ff cf       	rjmp	.-2      	; 0xa4 <main+0x12>
+
+000000a6 <clockWiseRotate>:
+		
+    }
+}
+
+void clockWiseRotate(){
+	state = (state+1)% 4;
+  a6:	80 91 6a 00 	lds	r24, 0x006A	; 0x80006a <__data_end>
+  aa:	90 91 6b 00 	lds	r25, 0x006B	; 0x80006b <__data_end+0x1>
+  ae:	01 96       	adiw	r24, 0x01	; 1
+  b0:	83 70       	andi	r24, 0x03	; 3
+  b2:	90 78       	andi	r25, 0x80	; 128
+  b4:	99 23       	and	r25, r25
+  b6:	24 f4       	brge	.+8      	; 0xc0 <clockWiseRotate+0x1a>
+  b8:	01 97       	sbiw	r24, 0x01	; 1
+  ba:	8c 6f       	ori	r24, 0xFC	; 252
+  bc:	9f 6f       	ori	r25, 0xFF	; 255
+  be:	01 96       	adiw	r24, 0x01	; 1
+  c0:	90 93 6b 00 	sts	0x006B, r25	; 0x80006b <__data_end+0x1>
+  c4:	80 93 6a 00 	sts	0x006A, r24	; 0x80006a <__data_end>
+  c8:	08 95       	ret
+
+000000ca <__vector_8>:
+int states[] = {8,2,4,1};
+int state;
+int timer1_initial_value = 65535 - 65000;
+void clockWiseRotate();
+
+ISR(TIMER1_OVF_vect){
+  ca:	1f 92       	push	r1
+  cc:	0f 92       	push	r0
+  ce:	0f b6       	in	r0, 0x3f	; 63
+  d0:	0f 92       	push	r0
+  d2:	11 24       	eor	r1, r1
+  d4:	2f 93       	push	r18
+  d6:	3f 93       	push	r19
+  d8:	4f 93       	push	r20
+  da:	5f 93       	push	r21
+  dc:	6f 93       	push	r22
+  de:	7f 93       	push	r23
+  e0:	8f 93       	push	r24
+  e2:	9f 93       	push	r25
+  e4:	af 93       	push	r26
+  e6:	bf 93       	push	r27
+  e8:	ef 93       	push	r30
+  ea:	ff 93       	push	r31
+	TCNT1 = timer1_initial_value;
+  ec:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__DATA_REGION_ORIGIN__>
+  f0:	90 91 61 00 	lds	r25, 0x0061	; 0x800061 <__DATA_REGION_ORIGIN__+0x1>
+  f4:	9d bd       	out	0x2d, r25	; 45
+  f6:	8c bd       	out	0x2c, r24	; 44
+	
+	if(PINC==0){
+  f8:	83 b3       	in	r24, 0x13	; 19
+  fa:	81 11       	cpse	r24, r1
+  fc:	0c c0       	rjmp	.+24     	; 0x116 <__vector_8+0x4c>
 		clockWiseRotate();
-  c2:	0e 94 49 00 	call	0x92	; 0x92 <clockWiseRotate>
+  fe:	0e 94 53 00 	call	0xa6	; 0xa6 <clockWiseRotate>
 		PORTA = states[state];
-  c6:	e0 91 68 00 	lds	r30, 0x0068	; 0x800068 <__data_end>
-  ca:	f0 91 69 00 	lds	r31, 0x0069	; 0x800069 <__data_end+0x1>
-  ce:	ee 0f       	add	r30, r30
-  d0:	ff 1f       	adc	r31, r31
-  d2:	e0 5a       	subi	r30, 0xA0	; 160
-  d4:	ff 4f       	sbci	r31, 0xFF	; 255
-  d6:	80 81       	ld	r24, Z
-  d8:	8b bb       	out	0x1b, r24	; 27
-	#else
-		//round up by default
-		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
-	#endif
+ 102:	e0 91 6a 00 	lds	r30, 0x006A	; 0x80006a <__data_end>
+ 106:	f0 91 6b 00 	lds	r31, 0x006B	; 0x80006b <__data_end+0x1>
+ 10a:	ee 0f       	add	r30, r30
+ 10c:	ff 1f       	adc	r31, r31
+ 10e:	ee 59       	subi	r30, 0x9E	; 158
+ 110:	ff 4f       	sbci	r31, 0xFF	; 255
+ 112:	80 81       	ld	r24, Z
+ 114:	8b bb       	out	0x1b, r24	; 27
+	}
+	
+	
+}
+ 116:	ff 91       	pop	r31
+ 118:	ef 91       	pop	r30
+ 11a:	bf 91       	pop	r27
+ 11c:	af 91       	pop	r26
+ 11e:	9f 91       	pop	r25
+ 120:	8f 91       	pop	r24
+ 122:	7f 91       	pop	r23
+ 124:	6f 91       	pop	r22
+ 126:	5f 91       	pop	r21
+ 128:	4f 91       	pop	r20
+ 12a:	3f 91       	pop	r19
+ 12c:	2f 91       	pop	r18
+ 12e:	0f 90       	pop	r0
+ 130:	0f be       	out	0x3f, r0	; 63
+ 132:	0f 90       	pop	r0
+ 134:	1f 90       	pop	r1
+ 136:	18 95       	reti
 
-	__builtin_avr_delay_cycles(__ticks_dc);
-  da:	2f e9       	ldi	r18, 0x9F	; 159
-  dc:	86 e8       	ldi	r24, 0x86	; 134
-  de:	91 e0       	ldi	r25, 0x01	; 1
-  e0:	21 50       	subi	r18, 0x01	; 1
-  e2:	80 40       	sbci	r24, 0x00	; 0
-  e4:	90 40       	sbci	r25, 0x00	; 0
-  e6:	e1 f7       	brne	.-8      	; 0xe0 <main+0x2a>
-  e8:	00 c0       	rjmp	.+0      	; 0xea <main+0x34>
-  ea:	00 00       	nop
-  ec:	e7 cf       	rjmp	.-50     	; 0xbc <main+0x6>
+00000138 <_exit>:
+ 138:	f8 94       	cli
 
-000000ee <_exit>:
-  ee:	f8 94       	cli
-
-000000f0 <__stop_program>:
-  f0:	ff cf       	rjmp	.-2      	; 0xf0 <__stop_program>
+0000013a <__stop_program>:
+ 13a:	ff cf       	rjmp	.-2      	; 0x13a <__stop_program>
